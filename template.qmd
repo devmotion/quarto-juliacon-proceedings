@@ -1,0 +1,506 @@
+---
+title: "My JuliaCon proceeding"
+format:
+  juliacon-pdf:
+    keep-tex: true
+author:
+  - name: 1st author
+    affiliations:
+      - ref: university
+    orcid: 0000-0003-1361-440X
+  - name: 2nd author
+    affiliations:
+      - ref: university
+      - ref: lab
+  - name: 3rd author
+    affiliations:
+      - ref: lab
+affiliations:
+  - id: university
+    name: University
+  - id: lab
+    name: National Lab
+abstract: |
+  This is a guide for authors who are preparing papers for JuliaCon using the {{< latex >}} document
+  preparation system and the `juliacon` class file.
+keywords: [Julia, Optimization, Game theory, Compiler]
+date: last-modified
+bibliography: ref.bib
+environments: [center, theorem]
+---
+
+## Introduction {#sec-intro}
+
+The {{< latex >}} document preparation system is a special version of the {{< tex >}} typesetting program where-in a collection of {{< tex >}} commands are added to {{< latex >}} to simplify typesetting.
+Importantly, it allows the author to concentrate on the logical structure of the document rather than its visual layout.
+
+Moreover, {{< latex >}} provides a consistent and comprehensive document preparation interface.
+There are simple-to-use commands for generating a table of contents, lists of figures and/or tables, and indexes.
+{{< latex >}} can automatically number list entries, equations, figures, tables, and footnotes, as well as articles, sections, and subsections.
+Using this numbering system, bibliographic citations, page references, and cross references to any other numbered entity (e.g. article, section, equation, figure, list entry, etc.) become quite simple and straightforward.
+The use of {{< latex >}} document classes allows a simple change of class to transform the appearance of your document.
+
+{{< latex >}} is a powerful tool for managing long and complex documents.
+In particular, partial processing enables long documents to be produced article by article without losing sequential information.
+The use of document classes allows a simple change of style (or style option) to transform the appearance of your document.
+
+## The JuliaCon Article Class {#sec-documentclass}
+
+The juliacon class file preserves the standard {{< latex >}} interface such that any document that can be produced using the standard {{< latex >}} article class can also be produced with the class file.
+
+It is likely that the make up will change after file submission.
+For this reason, we ask you to ignore details such as slightly long lines, page stretching, or figures falling out of synchronization, as these details can be dealt with at a later stage.
+
+Use should be made of symbolic references (`\ref`) in order to protect against late changes of order, etc.
+
+## Using The JuliaCon Article Class File
+
+If the file `juliacon.cls` is not already in the appropriate system directory for {{< latex >}} files, either arrange for it to be put there or copy it to your working directory.
+The `juliacon` document class is implemented as a complete class, not a document style option.
+In order to use the `juliacon` document class, replace `article` by `juliacon` in the `\documentclass` command at the beginning of your document:
+
+::: {.center}
+`\documentclass{article}`
+:::
+
+replace by `\documentclass{juliacon}`
+
+In general, the following standard document `style` options should *not* be used with the *article* class file:
+
+(1) `10pt`,  `11pt`, `12pt` ? unavailable;
+(2) `twoside` (no associated style file) ? `twoside` is the default;
+(3) `fleqn`, `leqno`, `titlepage` ? should not be used;
+
+## Additional Document Style Options {#sec-additional_doc}
+
+The following additional style option is available with the `juliacon` class file:
+
+Please place any additional command definitions at the very start of the {{< latex >}} file, before the `\begin{document}`.
+For example, user-defined `\def` and `\newcommand` commands that define macros for technical expressions should be placed here.
+Other author-defined macros should be kept to a minimum.
+
+Commands that differ from the standard {{< latex >}} interface, or that are provided in addition to the standard interface, are explained in this guide.
+This guide is not a substitute for the {{< latex >}} manual itself.
+Authors planning to submit their papers in {{< latex >}} are advised to use `juliacon.cls` as early as possible in the creation of their files.
+
+<!-- \begin{table*}[t]
+\tabcolsep22pt
+\tbl{If necessary, the tables can be extended both columns.}{
+\begin{tabular}{|l|l|c|c|}\hline
+Label & \multicolumn{1}{c|}{Description}
+& Number of Users &
+Number of Queries\\\hline
+Test 1 & Training Data &
+\smash{\raise-7pt\hbox{70}} & 104\\
+\cline{1-2}\cline{4-4}
+Test 2 & Testing Data I & & 105\\\hline
+Test 3 & Testing Data II & 30 & 119\\\hline
+& Total & 100 & 328\\\hline
+\end{tabular}}
+\label{tab:symbols}
+\begin{tabnote}
+This is an example of table footnote.
+\end{tabnote}
+\end{table*} -->
+
+## Additional features {#sec-additional_faci}
+
+In addition to all the standard {{< latex >}} design elements, the `juliacon` class file includes the following features:
+In general, once you have used the additional `juliacon.cls` facilities in your document, do not process it with a standard {{< latex >}} class file.
+
+### Titles, Author's Name, and Affiliation {#subsec-title_auth}
+
+The title of the article, author's name, and affiliation are used at the beginning of the article (for the main title).
+These can be produced using the following code:
+
+```tex
+\title{ This is an example of article title}
+\author{
+   \large 1st Author \\[-3pt]
+   \normalsize 1st author's affiliation  \\[-3pt]
+    \normalsize 1st line of address \\[-3pt]
+    \normalsize 2nd line of address \\[-3pt]
+    \normalsize	1st author's email address \\[-3pt]
+  \and
+   \large 2nd Author \\[-3pt]
+   \normalsize 2nd author's affiliation  \\[-3pt]
+    \normalsize 1st line of address \\[-3pt]
+    \normalsize 2nd line of address \\[-3pt]
+    \normalsize	2nd author's email address \\[-3pt]
+\and
+   \large 3rd Author \\[-3pt]
+   \normalsize 3rd author's affiliation  \\[-3pt]
+    \normalsize 1st line of address \\[-3pt]
+    \normalsize 2nd line of address \\[-3pt]
+    \normalsize	3rd author's email address \\[-3pt]
+}
+\maketitle
+```
+
+### Writing Julia Code
+
+A special environment is already defined for Julia code, built on top of `listings` and `jlcode`.
+
+```julia
+using Plots
+
+x = -3.0:0.01:3.0
+y = rand(length(x))
+plot(x, y)
+```
+
+### Abstracts, Key Words, Term etc... {#subsec-abs_key_etc}
+
+At the beginning of your article, the title should be generated in the usual way using the `\maketitle` command.
+For genaral tem and keywords use `\terms`, `\keywords` commands respectively.
+The abstract should be enclosed within an abstract environment.
+All these environments can be produced using the following code:
+
+```tex
+\terms{Experimentation, Human Factors}
+\keywords{Face animation, image-based modelling...}
+\begin{abstract}
+In this paper, we propose a new method for the
+systematic determination of the model's base of
+time varying delay system. This method based on
+the construction of the classification data related
+to the considered system. The number, the orders,
+the time delay and the parameters of the local
+models are generated automatically without any
+knowledge about the full operating range of the
+process. The parametric identification of the local
+models is realized by a new recursive algorithm for
+on line identification of systems with unknown time
+delay. The proposed algorithm allows simultaneous
+estimation of time delay and parameters of
+discrete-time systems. The effectiveness of
+the new method has been illustrated through
+simulation.
+\end{abstract}
+```
+
+## Some Guidelines {#sec-some_guide}
+
+The following notes may help you achieve the best effects with the `juliacon` class file.
+
+### Sections {#subsec-sections}
+
+{{< latex >}} provides four levels of section headings and they are all defined in the `juliacon` class file:
+
+- `\section`
+- `\subsection`
+- `\subsubsection`
+- `\paragraph`
+
+Section headings are automatically converted to allcaps style.
+
+### Lists {#subsec-lists}
+
+The `juliacon` class file provides unnumbered lists using the `unnumlist` environment for example,
+
+- First unnumbered item which has no label and is indented from the left margin.
+- Second unnumbered item.
+- Third unnumbered item.
+
+The unnumbered list which has no label and is indented from the left margin was produced by:
+
+```tex
+\begin{unnumlist}
+\item First unnumbered item...
+\item Second unnumbered item...
+\item Third unnumbered item...
+\end{unnumlist}
+```
+
+The `juliacon` class file also provides hyphen list using the `itemize` environment for example,
+
+- First unnumbered bulleted item which has no label and is indented from the left margin.
+- Second unnumbered bulleted item.
+- Third unnumbered bulleted item which has no label and is indented from the left margin.
+
+was produced by:
+
+```tex
+\begin{itemize}
+\item First item...
+\item Second item...
+\item Third item...
+\end{itemize}
+```
+
+Numbered list is also provided in the `juliacon` class file using the `enumerate` environment for example,
+
+1. The attenuated and diluted stellar radiation.
+2. Scattered radiation, and
+3. Reradiation from other grains.
+
+was produced by:
+
+```tex
+\begin{enumerate}
+\item The attenuated...
+\item Scattered radiation, and...
+\item Reradiation from other grains...
+\end{enumerate}
+```
+
+### Illustrations (or Figures) {#subsec-sec_Illus}
+
+The `juliacon` class file will cope with most of the positioning of your illustrations and you should not normally use the optional positional qualifiers on the `figure` environment that would override these decisions.
+
+![This is example of the image in a column.](juliagraphs.png){#fig-sample_figure width=4cm}
+
+The figure @fig-sample_figure is taken from the JuliaGraphs organization[^1].
+
+[^1]: https://github.com/JuliaGraphs
+
+Figure captions should be *below* the figure itself, therefore the `\caption` command should appear after the figure or space left for an illustration.
+For example, @fig-sample_figure is produced using the following commands:
+
+```tex
+\begin{figure}[t]
+\centerline{\includegraphics[width=4cm]{juliagraphs.png}}
+\caption{This is example of the image in a column.}
+\label{fig:sample_figure}
+\end{figure}
+```
+
+Figures can be resized using first and second argument of the `\includegraphics` command.
+The first argument is used for modifying figure height and the second argument is used for modifying figure width respectively.
+
+Cross-referencing of figures, tables, and numbered, displayed equations using the `\label` and `\ref` commands is encouraged.
+For example, in referencing @fig-sample_figure above, we used `Figure~\ref{fig:sample-figure}`.
+
+### Tables {#subsec-sec_Tab}
+
+The `juliacon` class file will cope with most of the positioning of your tables and you should not normally use the optional positional qualifiers on the table environment which would override these decisions.
+Table captions should be at the top.
+
+```tex
+\begin{table}
+\tbl{Tuning Set and Testing Set}{
+\begin{tabular}{|l|l|c|c|}\hline
+Label & \multicolumn{1}{c|}{Description}
+& Number of Users &
+Number of Queries\\\hline
+Train70 & Training Data &
+\smash{\raise-7pt\hbox{70}} & 104\\
+\cline{1-2}\cline{4-4}
+Test70 & Testing Data I & & 105\\\hline
+Test30 & Testing Data II & 30 & 119\\\hline
+& Total & 100 & 328\\\hline
+\end{tabular}}
+\end{table}
+```
+
+| Label  | Description     | Number of Users | Number of Queries |
+|:-------|:----------------|-----------------|-------------------|
+| Test 1 | Training Data   | 70              | 104               |
+| Test 2 | Testing Data I  |                 | 105               |
+| Test 3 | Testing Data II | 30              | 119               |
+|        | Total           | 100             | 328               |
+
+: Tuning Set and Testing Set
+
+### Landscaping Pages {#subsec-landscaping_pages}
+
+If a table is too wide to fit the standard measure, it may be turned, with its caption, to 90 degrees.
+Landscape tables cannot be produced directly using the `juliacon` class file because {{< tex >}} itself cannot turn the page, and not all device drivers provide such a facility.
+The following procedure can be used to produce such pages.
+
+Use the package `rotating` in your document and change the coding from
+
+```tex
+\begin{table}
+...
+\end{table}
+```
+
+to
+
+```tex
+\begin{sidewaystable}
+...
+\end{sidewaystable}
+```
+
+and for figures
+
+```tex
+\begin{figure}
+...
+\end{figure}
+```
+
+to
+
+```tex
+\begin{sidewaysfigure}
+...
+\end{sidewaysfigure}
+```
+
+environments in your document to turn your table on the appropriate page of your document.
+For instance, the following code prints a page with the running head, a message half way down and the table number towards the bottom.
+
+```tex
+\begin{sidewaystable}
+\tbl{Landscape table caption to go here.}{...}
+\label{landtab}
+\end{sidewaystable}
+```
+
+### Double Column Figure and Tables {#subsec-double_fig_tab}
+
+For generating the output of figures and tables in double column we can use the following coding:
+
+1. For Figures:
+   ```tex
+   \begin{figure*}
+   ...
+   \end{figure*}
+   ```
+2. For landscape figures:
+   ```tex
+   \begin{sidewaysfigure*}
+   ...
+   \end{sidewaysfigure*}
+   ```
+3. For Tables:
+   ```tex
+   \begin{table*}
+   ...
+   \end{table*}
+   ```
+4. For landscape tables:
+   ```tex
+   \begin{sidewaystable*}
+   ...
+   \end{sidewaystable*}
+   ```
+
+### Typesetting Mathematics {#subsec-type_math}
+
+The `juliacon` class file will set displayed mathematics with center to the column width, provided that you use the {{< latex >}} standard of open and closed square brackets as delimiters.
+The equation
+$$
+\sum_{i=1}^p \lambda_i = (S)
+$$
+
+was typeset using the `juliacon` class file with the commands
+
+```tex
+\[
+\sum_{i=1}^p \lambda_i = (S)
+\]
+```
+
+For display equations, cross-referencing is encouraged.
+For example,
+
+```tex
+\begin{equation}
+(n-1)^{-1} \sum^n_{i=1} (X_i - \overline{X})^2.
+\label{eq:samplevar}
+\end{equation}
+
+Equation~(\ref{eq:samplevar}) gives the formula for
+the sample variance.
+```
+
+The following output is generated with the above coding:
+
+$$
+(n-1)^{-1} \sum^n_{i=1} (X_i - \overline{X})^2.
+$$ {#eq-samplevar}
+
+@eq-samplevar gives the formula for the sample variance.
+
+### Enunciations {#subsec-enunciation}
+
+The `juliacon` class file generates the enunciations with the help of the following commands:
+
+```tex
+\begin{theorem}
+...
+\end{theorem}
+\begin{strategy}
+...
+\end{strategy}
+\begin{property}
+...
+\end{property}
+\begin{proposition}
+...
+\end{proposition}
+\begin{lemma}
+...
+\end{lemma}
+\begin{example}
+...
+\end{example}
+\begin{proof}
+...
+\end{proof}
+\begin{definition}
+...
+\end{definition}
+\begin{algorithm}
+...
+\end{algorithm}
+\begin{remark}
+...
+\end{remark}
+```
+
+The above-mentioned coding can also include optional arguments such as
+
+```tex
+\begin{theorem}[...].
+```
+
+Example for theorem:
+
+```tex
+\begin{theorem}[Generalized Poincare Conjecture]
+Four score and seven ... created equal.
+\end{theorem}
+```
+
+::: {.theorem name="Generalized Poincare Conjecture"}
+
+Four score and seven years ago our fathers brought forth, upon this continent, a new nation, conceived in Liberty,  and dedicated to the proposition that all men are created equal.
+
+:::
+
+### Extract {#subsec-extract}
+
+Extract environment should be coded within
+
+```tex
+\begin{extract}
+...
+\end{extract}
+```
+
+### Balancing Column at Last Page {#subsec-Balance}
+
+For balancing both column lengths at the last page use:
+
+```tex
+\vadjust{\vfill\pagebreak}
+```
+
+at appropriate place in your {{< tex >}} or bibliography file.
+
+### Handling References {#subsec-references}
+
+References are most easily (and correctly) generated using {{< bibtex >}}, which is easily invoked via
+
+```tex
+\bibliographystyle{juliacon}
+\bibliography{ref}
+```
+
+When submitting the document source (`.tex`) file to external parties, the `ref.bib` file should be sent with it.
+[@bezanson2017julia]

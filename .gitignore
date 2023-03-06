@@ -1,0 +1,16 @@
+/.luarc.json
+
+# Example
+/.latexmkrc
+/bib.tex
+/header.tex
+/jlcode.sty
+/journal_dat.tex
+/juliacon.bst
+/juliacon.cls
+/logojuliacon.pdf
+/paper.yml
+/prep.rb
+/template.fdb_latexmk
+/template.tex
+/template.pdf
