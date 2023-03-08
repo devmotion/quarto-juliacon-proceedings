@@ -74,7 +74,14 @@ if quarto.doc.is_format('latex') then
                 -- Write bibliography
                 local bib = meta['bibliography']
                 if bib ~= nil then
-                    fho:write("bibliography: ", pandoc.utils.stringify(bib))
+                    fho:write("bibliography: \"")
+                    for i, bibfile in ipairs(bib) do
+                        if i > 1 then
+                            fho:write(",")
+                        end
+                        fho:write(pandoc.utils.stringify(bibfile))
+                    end
+                    fho:write("\"")
                 end
 
                 fho:close()
