@@ -7,7 +7,6 @@ contributes:
     common:
       shortcodes:
         - quarto-ext/fancy-text
-    pdf:
       template: template.tex
       template-partials:
         - "partials/title.tex"
@@ -26,3 +25,5 @@ contributes:
       pdf-engine: latexmk
       cite-method: natbib
       listings: true
+    pdf: default
+    latex: default
